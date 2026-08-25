@@ -4,9 +4,11 @@ import React from "react";
 import { portfolioData } from "@/data/portfolioData";
 import { Cpu, ShieldCheck, Database, Zap, CheckCircle2 } from "lucide-react";
 
+const date = new Date();
+
 export default function About() {
   const stats = [
-    { label: "Years Experience", value: "2+" },
+    { label: "Years Experience", value: date.getFullYear() - 2023 + "+" },
     { label: "Production Apps", value: "10+" },
     { label: "Core Tech Stacks", value: "3" },
     { label: "Security Isolation", value: "100%" },
@@ -42,14 +44,14 @@ export default function About() {
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-          
+
           {/* Left Side: Bio & Details */}
           <div className="lg:col-span-7 flex flex-col gap-6">
             <span className="text-xs uppercase font-mono tracking-widest text-emerald-400">Engineering Focus</span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-100 leading-tight">
               Designing High-Performance Digital Architectures
             </h2>
-            
+
             <p className="text-zinc-300 text-base font-light leading-relaxed">
               {portfolioData.personalInfo.bio}
             </p>
@@ -76,7 +78,7 @@ export default function About() {
 
           {/* Right Side: Stats Panel & Highlights */}
           <div className="lg:col-span-5 grid grid-cols-1 gap-6">
-            
+
             {/* Stats Metrics Grid */}
             <div className="grid grid-cols-2 gap-4">
               {stats.map((stat, idx) => (

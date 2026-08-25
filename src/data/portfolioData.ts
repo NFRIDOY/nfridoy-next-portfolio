@@ -46,7 +46,7 @@ export const portfolioData: PortfolioData = {
   personalInfo: {
     name: "Md Noman Faysal Ridoy",
     brandAlias: "NF RIDOY | Full-Stack Developer",
-    imgae: "/profile.jpg",
+    imgae: "/profile.png",
     title: ["Full-Stack Developer", "Front End Developer", "Back End Developer", "Software Engineer", "Software Architect"],
     location: "Dhaka, Bangladesh",
     tagline: "Building scalable web engines, high-performance UI systems, and interactive digital experiences.",

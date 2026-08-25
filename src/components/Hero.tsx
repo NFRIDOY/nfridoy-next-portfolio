@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { portfolioData } from "@/data/portfolioData";
 import TypingTitle from "./TypingTitle";
-import { ArrowDown, Mail, MapPin } from "lucide-react";
+import { ArrowDown, GithubIcon, LinkedinIcon, Mail, MapPin } from "lucide-react";
 import Image from "next/image";
 
 export default function Hero() {
@@ -82,10 +82,10 @@ export default function Hero() {
       <div className="absolute bottom-1/3 right-1/4 h-[400px] w-[400px] rounded-full bg-indigo-500/5 blur-[150px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 w-full grid grid-cols-1 md:grid-cols-12 gap-12 items-center relative z-10">
-        
+
         {/* Left: Text Content */}
         <div ref={textRef} className="md:col-span-7 flex flex-col gap-6 text-center md:text-left order-2 md:order-1">
-          
+
           <div className="inline-flex items-center justify-center md:justify-start gap-2 bg-zinc-900/80 border border-zinc-800 px-3.5 py-1.5 rounded-full w-fit mx-auto md:mx-0 backdrop-blur-md">
             <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
             <span className="h-2 w-2 rounded-full bg-emerald-500 -ml-4" />
@@ -114,6 +114,14 @@ export default function Hero() {
               <Mail className="h-4 w-4 text-emerald-500" />
               <span>{portfolioData.personalInfo.socials.email}</span>
             </div>
+            <a href={portfolioData.personalInfo.socials.linkedin} className="flex items-center gap-1">
+              <LinkedinIcon className="h-4 w-4 text-emerald-500" />
+              <span>{portfolioData.personalInfo.socials.linkedin.split("/in/")[1]}</span>
+            </a>
+            <a href={portfolioData.personalInfo.socials.github} className="flex items-center gap-1">
+              <GithubIcon className="h-4 w-4 text-emerald-500" />
+              <span>{portfolioData.personalInfo.socials.github.split("/")[3]}</span>
+            </a>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 pt-4">
@@ -145,7 +153,7 @@ export default function Hero() {
           >
             {/* Background Glows */}
             <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-emerald-500 via-teal-400 to-indigo-500 opacity-20 blur-2xl group-hover:opacity-40 transition-opacity duration-700" />
-            
+
             {/* Animated Rotating Gradient Border */}
             <div className="absolute -inset-1.5 rounded-3xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-indigo-500 rounded-3xl opacity-60 group-hover:opacity-100 blur-[2px] transition-all duration-700 animate-[spin_8s_linear_infinite]" />
 
@@ -159,7 +167,7 @@ export default function Hero() {
                 className="h-full w-full object-cover scale-100 group-hover:scale-105 transition-transform duration-700 grayscale-[20%] group-hover:grayscale-0"
                 priority
               />
-              
+
               {/* Sci-Fi Overlay elements */}
               <div className="absolute bottom-4 left-4 right-4 bg-zinc-950/80 backdrop-blur-md border border-zinc-800/80 px-3 py-2 rounded-xl flex items-center justify-between opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
                 <span className="text-[10px] font-mono text-zinc-400 tracking-wider">ENGINE REVS</span>

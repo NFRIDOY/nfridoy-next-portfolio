@@ -23,7 +23,7 @@ export default function Footer() {
             {portfolioData.personalInfo.name}
           </span>
           <span className="text-[10px] font-mono text-zinc-500">
-            © {new Date().getFullYear()} • Designed & Built with Next.js & GSAP
+            © {new Date().getFullYear()} • Designed & Built with Next.js
           </span>
         </div>
 
