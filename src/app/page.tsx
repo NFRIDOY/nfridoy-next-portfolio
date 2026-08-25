@@ -15,8 +15,8 @@ export default function Home() {
         <About />
         <Skills />
         <Projects />
-        <AIChat />
       </main>
+      <AIChat />
       <Footer />
     </>
   );

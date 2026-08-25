@@ -69,7 +69,7 @@ export default function Header() {
             </button>
           ))}
           <button
-            onClick={() => scrollToSection("ai-chat")}
+            onClick={() => { setIsOpen(false); window.dispatchEvent(new Event("open-ai-chat")); }}
             className="text-sm font-medium text-emerald-400 hover:text-emerald-300 transition-colors uppercase tracking-wider text-[11px] flex items-center gap-1 font-mono"
           >
             <span>Ask AI</span>
@@ -123,7 +123,7 @@ export default function Header() {
             </button>
           ))}
           <button
-            onClick={() => scrollToSection("ai-chat")}
+            onClick={() => { setIsOpen(false); window.dispatchEvent(new Event("open-ai-chat")); }}
             className="text-2xl font-semibold tracking-wide text-emerald-400 hover:text-emerald-300 transition-colors text-left py-2 flex items-center gap-2"
           >
             <span>Ask AI Assistant</span>

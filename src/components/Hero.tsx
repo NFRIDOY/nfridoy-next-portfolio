@@ -129,12 +129,7 @@ export default function Hero() {
               Explore Projects
             </button>
             <button
-              onClick={() => {
-                const element = document.getElementById("ai-chat");
-                if (element) {
-                  element.scrollIntoView({ behavior: "smooth" });
-                }
-              }}
+              onClick={() => window.dispatchEvent(new Event("open-ai-chat"))}
               className="w-full sm:w-auto px-8 py-3.5 rounded-lg border border-zinc-800 bg-zinc-900/30 text-zinc-300 font-semibold hover:bg-zinc-900/60 hover:border-zinc-700 transition-all font-mono text-sm flex items-center justify-center gap-2"
             >
               Ask AI Assistant <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />

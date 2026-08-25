@@ -1,11 +1,8 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { portfolioData } from "@/data/portfolioData";
-import { MessageSquare, Send, Sparkles, User, Cpu } from "lucide-react";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { MessageSquare, Send, Sparkles, User, Cpu, X } from "lucide-react";
 
 interface Message {
   id: string;
@@ -21,7 +18,6 @@ const SUGGESTIONS = [
   "How can I contact you?",
 ];
 
-// Helper client-side response matching engine
 function getMockResponse(query: string): string {
   const q = query.toLowerCase();
 
@@ -32,7 +28,6 @@ function getMockResponse(query: string): string {
   }
 
   if (q.includes("project") || q.includes("portfolio") || q.includes("work") || q.includes("build")) {
-    const projs = portfolioData.projects.map(p => `"${p.title}" (${p.description})`).join(" and ");
     return `He has built several production-grade ecosystems, including: 1) ${portfolioData.projects[0].title}: ${portfolioData.projects[0].description}. 2) ${portfolioData.projects[1].title}: ${portfolioData.projects[1].description}.`;
   }
 
@@ -52,11 +47,11 @@ function getMockResponse(query: string): string {
     return `Hello! I am the AI Assistant of Md Noman Faysal Ridoy. Ask me anything about his technical stack, projects, experience, or contact details!`;
   }
 
-  // Fallback bio summary
   return `${portfolioData.personalInfo.bio} ${portfolioData.personalInfo.tagline} If you have specific questions about his work or availability, feel free to ask or drop an email at ${portfolioData.personalInfo.socials.email}.`;
 }
 
 export default function AIChat() {
+  const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
@@ -68,11 +63,29 @@ export default function AIChat() {
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const isFirstRender = useRef(true);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  // Auto-scroll to bottom of chat
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
+
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => inputRef.current?.focus(), 200);
+    }
+  }, [isOpen]);
+
+  const openChat = useCallback(() => setIsOpen(true), []);
+
+  useEffect(() => {
+    window.addEventListener("open-ai-chat", openChat);
+    return () => window.removeEventListener("open-ai-chat", openChat);
+  }, [openChat]);
 
   const handleSend = (textToSend: string) => {
     if (!textToSend.trim()) return;
@@ -88,7 +101,6 @@ export default function AIChat() {
     setInput("");
     setIsTyping(true);
 
-    // Simulate AI typing delay
     setTimeout(() => {
       const aiResponse = getMockResponse(textToSend);
       const aiMsg: Message = {
@@ -103,89 +115,77 @@ export default function AIChat() {
   };
 
   return (
-    <section id="ai-chat" className="py-24 bg-black relative overflow-hidden">
-      {/* Visual background rings */}
-      <div className="absolute top-1/3 left-1/4 h-[300px] w-[300px] rounded-full bg-emerald-500/5 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/3 right-1/4 h-[400px] w-[400px] rounded-full bg-indigo-500/5 blur-[150px] pointer-events-none" />
-
-      <div className="max-w-4xl mx-auto px-6 relative z-10">
-        
-        {/* Header */}
-        <div className="text-center flex flex-col items-center mb-12">
-          <span className="text-xs uppercase font-mono tracking-widest text-emerald-400 mb-2">Interactive AI Agent</span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-100 mb-4">
-            Ask About Me
-          </h2>
-          <p className="text-zinc-400 max-w-lg font-light text-sm leading-relaxed">
-            Have questions about my technical proficiency, design choices, or project implementations? Ask the virtual assistant for real-time insights.
-          </p>
-        </div>
-
-        {/* Chat Card Box */}
-        <Card className="border-zinc-800 bg-zinc-950/60 backdrop-blur-md rounded-2xl overflow-hidden shadow-2xl">
-          <CardHeader className="border-b border-zinc-900 bg-zinc-950/90 py-4 px-6 flex flex-row items-center justify-between">
+    <>
+      {/* Chat Panel */}
+      <div
+        className={`fixed bottom-24 right-6 z-50 w-[380px] max-w-[calc(100vw-48px)] transition-all duration-300 origin-bottom-right ${
+          isOpen
+            ? "scale-100 opacity-100 translate-y-0"
+            : "scale-95 opacity-0 translate-y-4 pointer-events-none"
+        }`}
+      >
+        <div className="rounded-2xl overflow-hidden shadow-[0_8px_40px_rgba(0,0,0,0.6)] border border-zinc-800 bg-zinc-950/95 backdrop-blur-xl flex flex-col max-h-[520px]">
+          {/* Header */}
+          <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-800 bg-zinc-950/90 shrink-0">
             <div className="flex items-center gap-3">
               <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-500 flex items-center justify-center text-zinc-950 shadow-[0_0_15px_rgba(16,185,129,0.3)]">
                 <Cpu className="h-5 w-5" />
               </div>
               <div>
-                <CardTitle className="text-sm font-bold text-zinc-200">NF RIDOY Assistant</CardTitle>
-                <span className="text-[10px] text-emerald-400 font-mono flex items-center gap-1.5 mt-0.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" /> Virtual Agent Active
+                <p className="text-sm font-bold text-zinc-200">NF RIDOY Assistant</p>
+                <span className="text-[10px] text-emerald-400 font-mono flex items-center gap-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" /> Online
                 </span>
               </div>
             </div>
-            <span className="text-[10px] font-mono text-zinc-500 border border-zinc-800 px-2 py-0.5 rounded bg-zinc-900/50">
-              UI DEMO ONLY
-            </span>
-          </CardHeader>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="p-1.5 rounded-lg text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800 transition-colors"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
 
-          {/* Chat Logs Area */}
-          <CardContent className="h-[380px] overflow-y-auto p-6 flex flex-col gap-4">
+          {/* Messages */}
+          <div className="flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-3 min-h-0">
             {messages.map((msg) => {
               const isAi = msg.sender === "ai";
               return (
                 <div
                   key={msg.id}
-                  className={`flex gap-3 max-w-[85%] ${
-                    isAi ? "self-start" : "self-end flex-row-reverse"
-                  }`}
+                  className={`flex gap-2.5 max-w-[88%] ${isAi ? "self-start" : "self-end flex-row-reverse"}`}
                 >
-                  {/* Message Avatar Icon */}
                   <div
-                    className={`h-8 w-8 rounded-lg flex items-center justify-center text-xs shrink-0 ${
+                    className={`h-7 w-7 rounded-lg flex items-center justify-center text-xs shrink-0 ${
                       isAi
                         ? "bg-zinc-900 border border-zinc-800 text-emerald-400"
                         : "bg-emerald-500 text-zinc-950"
                     }`}
                   >
-                    {isAi ? <Sparkles className="h-4 w-4" /> : <User className="h-4 w-4" />}
+                    {isAi ? <Sparkles className="h-3.5 w-3.5" /> : <User className="h-3.5 w-3.5" />}
                   </div>
-
-                  {/* Message Box */}
                   <div
-                    className={`p-4 rounded-2xl text-sm leading-relaxed ${
+                    className={`px-3 py-2.5 rounded-2xl text-[13px] leading-relaxed ${
                       isAi
-                        ? "bg-zinc-900/50 border border-zinc-900 text-zinc-300"
+                        ? "bg-zinc-900/50 border border-zinc-800 text-zinc-300"
                         : "bg-gradient-to-tr from-emerald-600/90 to-teal-600/90 text-white"
                     }`}
                   >
                     <p>{msg.text}</p>
-                    <span className="block text-[8px] font-mono text-zinc-500 mt-2 text-right">
-                      {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    <span className="block text-[8px] font-mono text-zinc-500 mt-1.5 text-right">
+                      {msg.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                     </span>
                   </div>
                 </div>
               );
             })}
 
-            {/* Typing Dots Simulation */}
             {isTyping && (
-              <div className="flex gap-3 self-start max-w-[85%]">
-                <div className="h-8 w-8 rounded-lg bg-zinc-900 border border-zinc-800 text-emerald-400 flex items-center justify-center shrink-0">
-                  <Sparkles className="h-4 w-4 animate-spin" />
+              <div className="flex gap-2.5 self-start max-w-[88%]">
+                <div className="h-7 w-7 rounded-lg bg-zinc-900 border border-zinc-800 text-emerald-400 flex items-center justify-center shrink-0">
+                  <Sparkles className="h-3.5 w-3.5 animate-spin" />
                 </div>
-                <div className="p-4 rounded-2xl bg-zinc-900/50 border border-zinc-900 text-zinc-500 text-sm flex items-center gap-1">
+                <div className="px-4 py-3 rounded-2xl bg-zinc-900/50 border border-zinc-800 text-zinc-500 text-sm flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-zinc-500 animate-bounce" style={{ animationDelay: "0ms" }} />
                   <span className="w-1.5 h-1.5 rounded-full bg-zinc-500 animate-bounce" style={{ animationDelay: "150ms" }} />
                   <span className="w-1.5 h-1.5 rounded-full bg-zinc-500 animate-bounce" style={{ animationDelay: "300ms" }} />
@@ -193,51 +193,65 @@ export default function AIChat() {
               </div>
             )}
             <div ref={messagesEndRef} />
-          </CardContent>
+          </div>
 
-          {/* Quick Suggestion Pills */}
-          <div className="px-6 pb-4 flex flex-wrap gap-2">
+          {/* Suggestions */}
+          <div className="px-4 pb-3 flex flex-wrap gap-1.5 shrink-0">
             {SUGGESTIONS.map((s) => (
               <button
                 key={s}
                 onClick={() => handleSend(s)}
-                className="text-[10px] font-mono px-3 py-1.5 rounded-full border border-zinc-800 bg-zinc-900/30 text-zinc-400 hover:text-emerald-400 hover:border-emerald-500/30 hover:bg-emerald-950/10 transition-all text-left"
+                className="text-[10px] font-mono px-2.5 py-1 rounded-full border border-zinc-800 bg-zinc-900/30 text-zinc-400 hover:text-emerald-400 hover:border-emerald-500/30 hover:bg-emerald-950/10 transition-all"
               >
                 {s}
               </button>
             ))}
           </div>
 
-          {/* Input Footer Form */}
-          <CardFooter className="border-t border-zinc-900 bg-zinc-950/80 p-4">
+          {/* Input */}
+          <div className="border-t border-zinc-800 bg-zinc-950/80 p-3 shrink-0">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
                 handleSend(input);
               }}
-              className="flex w-full items-center gap-2"
+              className="flex items-center gap-2"
             >
-              <Input
+              <input
+                ref={inputRef}
                 type="text"
                 placeholder="Ask me about NF RIDOY..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 disabled={isTyping}
-                className="flex-1 bg-zinc-900 border-zinc-850 hover:border-zinc-800 focus:border-emerald-500/50 text-zinc-100 rounded-xl py-5"
+                className="flex-1 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 focus:border-emerald-500/50 focus:outline-none text-zinc-100 text-sm rounded-xl px-3 py-2.5 transition-colors placeholder:text-zinc-600"
               />
-              <Button
+              <button
                 type="submit"
-                size="icon"
                 disabled={!input.trim() || isTyping}
-                className="bg-emerald-500 hover:bg-emerald-400 text-zinc-950 rounded-xl h-11 w-11 shadow-[0_0_15px_rgba(16,185,129,0.3)] shrink-0 transition-transform duration-200 active:scale-95"
+                className="bg-emerald-500 hover:bg-emerald-400 disabled:opacity-40 disabled:hover:bg-emerald-500 text-zinc-950 rounded-xl h-10 w-10 flex items-center justify-center shadow-[0_0_12px_rgba(16,185,129,0.3)] shrink-0 transition-transform duration-200 active:scale-95"
               >
-                <Send className="h-4.5 w-4.5" />
-              </Button>
+                <Send className="h-4 w-4" />
+              </button>
             </form>
-          </CardFooter>
-        </Card>
-
+          </div>
+        </div>
       </div>
-    </section>
+
+      {/* Floating Action Button */}
+      <button
+        onClick={() => setIsOpen((prev) => !prev)}
+        className="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-500 text-zinc-950 flex items-center justify-center shadow-[0_4px_20px_rgba(16,185,129,0.4)] hover:shadow-[0_4px_30px_rgba(16,185,129,0.6)] hover:scale-105 active:scale-95 transition-all duration-200"
+        aria-label={isOpen ? "Close chat" : "Open AI chat"}
+      >
+        {/* Animated ring */}
+        <span className="absolute inset-0 rounded-full border-2 border-emerald-400/60 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite] pointer-events-none" />
+        <span className="absolute -inset-1 rounded-full border border-emerald-500/30 animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite] pointer-events-none" style={{ animationDelay: "0.5s" }} />
+
+        <div className="relative z-10">
+          {isOpen ? <X className="h-6 w-6" /> : <MessageSquare className="h-6 w-6" />}
+        </div>
+      </button>
+    </>
   );
 }
