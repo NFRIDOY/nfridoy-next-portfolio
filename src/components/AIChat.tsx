@@ -7,7 +7,7 @@ import { MessageSquare, Send, Sparkles, User, Cpu, X } from "lucide-react";
 interface Message {
   id: string;
   sender: "user" | "ai";
-  text: string;
+  text: string | React.ReactNode;
   timestamp: Date;
 }
 
@@ -18,7 +18,7 @@ const SUGGESTIONS = [
   "How can I contact you?",
 ];
 
-function getMockResponse(query: string): string {
+function getMockResponse(query: string): string | React.ReactNode {
   const q = query.toLowerCase();
 
   if (q.includes("strength") || q.includes("specialize") || q.includes("skills") || q.includes("tech") || q.includes("stack")) {
@@ -32,7 +32,14 @@ function getMockResponse(query: string): string {
   }
 
   if (q.includes("contact") || q.includes("email") || q.includes("hire") || q.includes("social") || q.includes("github") || q.includes("linkedin")) {
-    return `You can reach out to Md Noman Faysal Ridoy directly via email at ${portfolioData.personalInfo.socials.email}, or visit his LinkedIn (${portfolioData.personalInfo.socials.linkedin}) and GitHub (${portfolioData.personalInfo.socials.github}).`;
+    return (
+      <>
+        You can reach out to Md Noman Faysal Ridoy directly via email at{" "}
+        <a href={`mailto:${portfolioData.personalInfo.socials.email}`} target="_blank" rel="noopener noreferrer" className="text-emerald-400 underline underline-offset-2 hover:text-emerald-300">{portfolioData.personalInfo.socials.email}</a>, or visit his{" "}
+        <a href={portfolioData.personalInfo.socials.linkedin} target="_blank" rel="noopener noreferrer" className="text-emerald-400 underline underline-offset-2 hover:text-emerald-300">LinkedIn</a> and{" "}
+        <a href={portfolioData.personalInfo.socials.github} target="_blank" rel="noopener noreferrer" className="text-emerald-400 underline underline-offset-2 hover:text-emerald-300">GitHub</a>.
+      </>
+    );
   }
 
   if (q.includes("location") || q.includes("where") || q.includes("base") || q.includes("live") || q.includes("bangladesh")) {
@@ -172,7 +179,7 @@ export default function AIChat() {
                     }`}
                   >
                     <p>{msg.text}</p>
-                    <span className="block text-[8px] font-mono text-zinc-500 mt-1.5 text-right">
+                    <span className="block text-[8px] font-mono text-white mt-1.5 text-right">
                       {msg.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                     </span>
                   </div>
