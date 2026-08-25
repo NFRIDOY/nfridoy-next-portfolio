@@ -13,6 +13,8 @@ export interface Project {
   title: string;
   description: string;
   techStack: Skill[];
+  live?: string;
+  github?: string;
 }
 
 export interface PersonalInfo {
@@ -238,8 +240,10 @@ export const portfolioData: PortfolioData = {
 
   projects: [
     {
-      title: "Delivery & Courier Management System",
-      description: "A comprehensive logistics portal featuring a multi-stage workflow tracking system, integrated photo uploads for delivery verification, and real-time status updates to streamline courier operations.",
+      title: "ERP Management System",
+      description: "A comprehensive enterprise resource planning (ERP) system designed to manage core business processes in a centralized platform. The system integrates inventory control, supply chain logistics, financial tracking, and employee management, providing real-time visibility and automating workflows to enhance operational efficiency.",
+      live: "https://github.com/NFRIDOY/crm-shadcn-m",
+      github: "https://github.com/NFRIDOY/crm-shadcn-m",
       techStack: [
         {
           id: "1",
@@ -280,8 +284,10 @@ export const portfolioData: PortfolioData = {
       ],
     },
     {
-      title: "Secure Authentication Ecosystem",
-      description: "A robust authentication system engineered with OAuth 2.0 and JWT protocols, ensuring secure, multi-tenant session isolation across diverse subdomains.",
+      title: "Asset Hexa",
+      description: "Asset Hexa is an all-in-one financial management platform developed by Hexa Scriptors that empowers individuals and businesses to master their money, visualize cash flow, and build long-term wealth. Launched in 2023, the platform simplifies daily financial health by combining real-time income and expense tracking with interactive cash flow visualizers, robust enterprise-grade security, and dedicated portals for business funding and investment management. Acting as a trusted financial guardian, Asset Hexa bridges the gap between basic accounting and active growth, helping users unlock saving opportunities, secure business capital, and navigate their path to financial freedom with total confidence.",
+      live: "https://github.com/NFRIDOY/crm-shadcn-m",
+      github: "https://github.com/NFRIDOY/crm-shadcn-m",
       techStack: [
         {
           id: "1",
