@@ -6,6 +6,7 @@ import Projects from "@/components/Projects";
 // import WorkExperience from "@/components/WorkExperience";
 import AIChat from "@/components/AIChat";
 import Footer from "@/components/Footer";
+import Contact from "@/components/Contact";
 
 export default function Home() {
   return (
@@ -17,6 +18,8 @@ export default function Home() {
         <Skills />
         <Projects />
         {/* <WorkExperience /> */}
+        {/* Contact me Form */}
+        <Contact />
       </main>
       <AIChat />
       <Footer />
