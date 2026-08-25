@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { portfolioData } from "@/data/portfolioData";
-import { Menu, X, ArrowUpRight } from "lucide-react";
+import { Menu, X, ArrowUpRight, Download, FileText } from "lucide-react";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -75,10 +75,25 @@ export default function Header() {
             <span>Ask AI</span>
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
           </button>
+          <a
+            href="/resume"
+            className="text-sm font-medium text-zinc-400 hover:text-zinc-100 transition-colors uppercase tracking-wider text-[11px] flex items-center gap-1"
+          >
+            <FileText className="h-3.5 w-3.5" />
+            <span>Resume</span>
+          </a>
         </nav>
 
         {/* Actions / Socials */}
         <div className="hidden md:flex items-center gap-4">
+          <a
+            href={portfolioData.personalInfo.cvlink}
+            download
+            className="text-xs flex items-center gap-1.5 text-zinc-400 hover:text-zinc-100 border border-zinc-800 hover:border-zinc-700 px-3 py-1.5 rounded-md transition-all font-mono"
+          >
+            <Download className="h-3 w-3" />
+            Download CV
+          </a>
           <a
             href={portfolioData.personalInfo.socials.github}
             target="_blank"
@@ -129,6 +144,21 @@ export default function Header() {
             <span>Ask AI Assistant</span>
             <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
           </button>
+          <a
+            href="/resume"
+            className="text-2xl font-semibold tracking-wide text-zinc-300 hover:text-emerald-400 transition-colors text-left py-2 flex items-center gap-2 border-b border-zinc-900"
+          >
+            <FileText className="h-5 w-5" />
+            <span>Preview Resume</span>
+          </a>
+          <a
+            href={portfolioData.personalInfo.cvlink}
+            download
+            className="text-2xl font-semibold tracking-wide text-zinc-300 hover:text-emerald-400 transition-colors text-left py-2 flex items-center gap-2"
+          >
+            <Download className="h-5 w-5" />
+            <span>Download CV</span>
+          </a>
         </div>
 
         <div className="flex flex-col gap-4">

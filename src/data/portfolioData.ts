@@ -21,6 +21,7 @@ export interface PersonalInfo {
   location: string;
   tagline: string;
   bio: string;
+  cvlink: string;
   socials: {
     github: string;
     linkedin: string;
@@ -48,6 +49,7 @@ export const portfolioData: PortfolioData = {
     location: "Dhaka, Bangladesh",
     tagline: "Building scalable web engines, high-performance UI systems, and interactive digital experiences.",
     bio: "Full-stack engineer specializing in Next.js, TypeScript, Node.js, express and the MERN stack. I build robust digital products spanning authentication architectures, complex dashboard systems, and animation-heavy frontends.",
+    cvlink: "/Md Noman Faysal Ridoy_Resume.pdf",
     socials: {
       github: "https://github.com/nfridoy",
       linkedin: "https://linkedin.com/in/nfridoy",
