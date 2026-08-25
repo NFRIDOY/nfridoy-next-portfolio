@@ -9,8 +9,8 @@ const date = new Date();
 export default function About() {
   const stats = [
     { label: "Years Experience", value: date.getFullYear() - 2023 + "+" },
-    { label: "Production Apps", value: "10+" },
-    { label: "Core Tech Stacks", value: "3" },
+    { label: "Production Projects", value: "10+" },
+    { label: "Core Tech Stacks", value: "5+" },
     { label: "Security Isolation", value: "100%" },
   ];
 

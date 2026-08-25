@@ -95,7 +95,8 @@ export default function Hero() {
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-zinc-100">
-            Hi, I&apos;m <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-indigo-400 bg-clip-text text-transparent">{portfolioData.personalInfo.name}</span>
+            Hi, I&apos;m <br />
+            <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-indigo-400 bg-clip-text text-transparent">{portfolioData.personalInfo.name}</span>
           </h1>
 
           <TypingTitle titles={portfolioData.personalInfo.title} />
