@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
+// import WorkExperience from "@/components/WorkExperience";
 import AIChat from "@/components/AIChat";
 import Footer from "@/components/Footer";
 
@@ -15,6 +16,7 @@ export default function Home() {
         <About />
         <Skills />
         <Projects />
+        {/* <WorkExperience /> */}
       </main>
       <AIChat />
       <Footer />
