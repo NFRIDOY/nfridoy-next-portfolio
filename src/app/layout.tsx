@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NF RIDOY | Full-Stack Web Developer",
-  description: "Portfolio of Md Noman Faysal Ridoy - Full-Stack Web Developer specializing in Next.js, MERN stack, APIs, and GSAP animations.",
+  title: "NF RIDOY | Full-Stack Developer",
+  description: "Portfolio of Md Noman Faysal Ridoy - Full-Stack Developer specializing in Next.js, MERN stack, APIs, and GSAP animations.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
